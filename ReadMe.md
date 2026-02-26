@@ -183,3 +183,45 @@ The codebase and documentation is licensed under the [GNU General Public License
 You must preserve the copyright and license notices in your derivative work and make available the complete source code with modifications under the same license ([see this](https://choosealicense.com/licenses/gpl-3.0/); this is not legal advice).
 
 
+## Steps to Build on Ubuntu 24 ROS Jazzy. Just install the ceres-2.0.0
+
+```
+
+sudo apt remove --purge libceres-dev libceres4t64
+sudo apt autoremove
+
+
+sudo apt update
+sudo apt install -y \
+    cmake \
+    libgoogle-glog-dev \
+    libgflags-dev \
+    libatlas-base-dev \
+    libeigen3-dev \
+    libsuitesparse-dev \
+    libtbb-dev
+
+wget http://ceres-solver.org/ceres-solver-2.0.0.tar.gz
+tar zxf ceres-solver-2.0.0.tar.gz
+cd ceres-solver-2.0.0
+
+# Create build directory
+mkdir build
+cd build
+
+cmake .. \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_TESTING=OFF \
+    -DBUILD_EXAMPLES=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DTBB=OFF \
+    -DSUITESPARSE=OFF
+
+make -j$(nproc)
+sudo make install
+sudo ldconfig
+
+```
+
+
+
